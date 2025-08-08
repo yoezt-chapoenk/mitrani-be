@@ -19,6 +19,7 @@ const uploadRoutes = require('./routes/upload');
 const notificationRoutes = require('./routes/notifications');
 
 const errorHandler = require('./middlewares/errorHandler');
+const verifyAdminRequestOrigin = require('./middlewares/verifyAdminRequestOrigin');
 const { supabase } = require('./config/supabase');
 
 const app = express();
@@ -60,8 +61,8 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/farmer', farmerRoutes);
-app.use('/api/admin', adminAuthRoutes);
-app.use('/api/admin', adminRoutes);
+app.use('/api/admin', verifyAdminRequestOrigin, adminAuthRoutes);
+app.use('/api/admin', verifyAdminRequestOrigin, adminRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/notifications', notificationRoutes);
 
